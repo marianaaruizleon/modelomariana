@@ -28,25 +28,30 @@ alpha=0.001;
 g=200;
 %para 10 términos
 for u=1:10
-    syms x
-    fun=(200*x*besselj(0,(mroot(u)*x/A)));
-    q=int(fun,0,A);
-    [X,Y]=meshgrid(0:A/10:A,0:10:100);
-    Z=(2/A^2)*((((exp(-(mroot(u)*(alpha/A))^2*Y)))*((besselj(0,(mroot(u)*X/A)))/((1+((mH(u)^2*A^2)/(mroot(u)^2)))*((besselj(0,mroot(u)))^2))))*q)
+    for e=1:10
+        syms x
+        fun=(200*x*besselj(0,(mroot(u)*x/A)));
+        q=int(fun,0,A);
+        [X,Y]=meshgrid(0:A/10:A,0:10:100);
+        Z=(2/A^2)*((((exp(-(mroot(u)*(alpha/A))^2*Y)))*((besselj(0,(mroot(u)*X/A)))/((1+((mH(u)^2*A^2)/(mroot(u)^2)))*((besselj(0,mroot(u)))^2))))*q);
+        a=genvarname(['Z00',num2str(e)]);
+        eval([a,'=Z'])
+    end
 end
-% % Sacamos los valores de Z para una variable double
-% z2=zeros(11);
-% for i=1:11
-%     for j=1:11
-%         z2(i,j)=double(Z(i,j));
-%     end
-% end
-% 
-% %Graficamos
-% surf(X,Y,z2)
-% xlabel('radio')
-% ylabel('tiempo')
-% zlabel('temperatura')
-% figure
-% contour(X,Y,Z)
-% title('grafica de contorno')
+Zf=Z001+Z002+Z003+Z004+Z005+Z006+Z007+Z008+Z009+Z0010;
+% Sacamos los valores de Z para una variable double
+z2=zeros(11);
+for i=1:11
+    for j=1:11
+        z2(i,j)=double(Zf(i,j));
+    end
+end
+
+%Graficamos
+surf(X,Y,z2)
+xlabel('radio')
+ylabel('tiempo')
+zlabel('temperatura')
+figure
+contour(X,Y,Z)
+title('grafica de contorno')
